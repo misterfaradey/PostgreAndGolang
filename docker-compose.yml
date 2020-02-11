@@ -1,0 +1,22 @@
+version: '3'
+services:
+  postgre:
+    image: postgres:12
+    container_name: postgre
+    restart: always
+    ports:
+      - "5432:5432"
+
+  postgreAndGolang:
+    image: golang:latest
+    depends_on:
+      - postgre
+    volumes:
+      - .:/go/src/github.com/misterfaradey/PostgreAndGolang/
+    working_dir: /go/src/github.com/misterfaradey/exmo/PostgreAndGolang/
+    ports:
+      - "8080:8080"
+    entrypoint:
+      - go
+      - run
+      - cmd/api/main.go
