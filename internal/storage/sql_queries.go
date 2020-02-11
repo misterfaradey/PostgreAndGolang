@@ -18,8 +18,6 @@ CREATE DATABASE test
 
 CREATE SCHEMA test;
 
-SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
-
 CREATE TABLE test.wallets (
     ID int8 primary key,
     Balance float8 NOT NULL

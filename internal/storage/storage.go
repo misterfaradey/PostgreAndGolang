@@ -86,9 +86,9 @@ func (c *db) InitDB() error {
 
 	rows, err := c.db.QueryContext(ctx, `SELECT 1 FROM "test".test LIMIT 1;`)
 	if err == nil {
+		rows.Close()
 		return nil
 	}
-	rows.Close()
 
 	_, err = c.db.ExecContext(ctx, initDB)
 	return err
