@@ -51,18 +51,18 @@ func (c *methodController) GetWallet(ctx *gin.Context) {
 
 	err := ctx.ShouldBind(&wId)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, ctx.Error(err).JSON())
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	wallet, err := c.methodStorage.GetWallet(ctx, wId.ID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, ctx.Error(err).JSON())
+			ctx.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return
 		}
 
-		ctx.JSON(http.StatusInternalServerError, ctx.Error(err).JSON())
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -76,18 +76,18 @@ func (c *methodController) GetTransaction(ctx *gin.Context) {
 
 	err := ctx.ShouldBind(&trID)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, ctx.Error(err).JSON())
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	wallet, err := c.methodStorage.GetTransaction(ctx, trID.ID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, ctx.Error(err).JSON())
+			ctx.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 			return
 		}
 
-		ctx.JSON(http.StatusInternalServerError, ctx.Error(err).JSON())
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -101,27 +101,22 @@ func (c *methodController) Transfer(ctx *gin.Context) {
 
 	err := ctx.ShouldBind(&transfer)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, ctx.Error(err).JSON())
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	err = transfer.Validate()
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, ctx.Error(err).JSON())
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	err = c.methodStorage.Transfer(ctx, transfer)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, ctx.Error(err).JSON())
-			return
-		}
-
-		ctx.JSON(http.StatusInternalServerError, ctx.Error(err).JSON())
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, struct{}{})
+	ctx.JSON(http.StatusOK, gin.H{})
 	return
 }

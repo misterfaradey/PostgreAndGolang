@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"github.com/misterfaradey/PostgreAndGolang/internal/server/controllers"
 	"net/http"
 	"time"
 
@@ -24,10 +25,6 @@ type Server interface {
 
 type Controller interface {
 	Actions() []Action
-}
-
-type Middleware interface {
-	GetMiddleware() gin.HandlerFunc
 }
 
 type Action struct {
@@ -65,7 +62,8 @@ func (s *server) setup(controller Controller, config *ServerConf) {
 
 	for _, action := range controller.Actions() {
 		a := action
-		s.engine.Handle(a.HttpMethod, a.RelativePath, a.ActionExec)
+
+		s.engine.Handle(a.HttpMethod, a.RelativePath, controllers.MiddleWare, a.ActionExec)
 	}
 
 	s.srv = &http.Server{
