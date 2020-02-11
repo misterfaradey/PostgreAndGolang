@@ -1,16 +1,32 @@
 # получить предустановленный кошелек
 POST http://0.0.0.0:8080/api/wallet/get
 Content-Type: application/json
+Source-Type:game
 
 {
   "id":1
 }
 
 ###
-# получить проведденную транзакцию
+# получить проведенную транзакцию
 POST http://0.0.0.0:8080/api/transaction/get
 Content-Type: application/json
+Source-Type:payment
 
 {
-"id":"111"
+"id":"1"
 }
+
+###
+# совершить транзакцию
+POST http://0.0.0.0:8080/api/transfer
+Content-Type: application/json
+Source-Type:payment
+
+{
+  "transactionId": "8",
+  "state": "lost",
+  "amount": 3600
+}
+
+###

@@ -21,21 +21,24 @@ type Transaction struct {
 	Amount float64 `form:"amount" json:"amount"`
 }
 
-func (t Transaction) Validate() error {
+func (t *Transaction) Validate() error {
 
 	if t.ID == "" {
 		return errors.New("transactionId not valid")
 	}
 
+	if t.Amount <= 0 {
+		return errors.New("amount not valid")
+	}
+
 	switch t.State {
-	case "win", "lost":
+	case "win":
 		break
+	case "lost":
+		t.Amount *= -1
 	default:
 		return errors.New("state not valid")
 	}
 
-	if t.Amount <= 0 {
-		return errors.New("amount not valid")
-	}
 	return nil
 }
