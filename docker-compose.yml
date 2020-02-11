@@ -14,6 +14,7 @@ services:
 
 
   postgreAndGolang:
+    container_name: wallet_api
     image: golang:latest
     depends_on:
       - postgre

@@ -3,6 +3,8 @@ CREATE DATABASE test
     OWNER = postgres
     ENCODING = 'UTF8';
 
+\connect test;
+
 CREATE SCHEMA test;
 
 CREATE TABLE test.wallets (
