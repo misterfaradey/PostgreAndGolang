@@ -4,14 +4,13 @@ import (
 	"database/sql"
 	"github.com/gin-gonic/gin"
 	"github.com/misterfaradey/PostgreAndGolang/internal/dto"
-	"github.com/misterfaradey/PostgreAndGolang/internal/server"
 	"github.com/misterfaradey/PostgreAndGolang/internal/storage"
 	"net/http"
 )
 
 type methodController struct {
 	methodStorage storage.DB
-	actions       []server.Action
+	actions       []Action
 }
 
 func NewMethodController(methodService storage.DB) *methodController {
@@ -21,17 +20,17 @@ func NewMethodController(methodService storage.DB) *methodController {
 	}
 
 	c.actions = append(c.actions,
-		server.Action{
+		Action{
 			HttpMethod:   "POST",
 			RelativePath: "/api/wallet/get",
 			ActionExec:   c.GetWallet,
 		},
-		server.Action{
+		Action{
 			HttpMethod:   "POST",
 			RelativePath: "/api/transaction/get",
 			ActionExec:   c.GetTransaction,
 		},
-		server.Action{
+		Action{
 			HttpMethod:   "POST",
 			RelativePath: "/api/transfer",
 			ActionExec:   c.Transfer,
@@ -41,7 +40,7 @@ func NewMethodController(methodService storage.DB) *methodController {
 	return &c
 }
 
-func (c *methodController) Actions() []server.Action {
+func (c *methodController) Actions() []Action {
 	return c.actions
 }
 

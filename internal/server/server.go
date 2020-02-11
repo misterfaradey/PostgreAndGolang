@@ -23,23 +23,13 @@ type Server interface {
 	Shutdown(ctx context.Context) error
 }
 
-type Controller interface {
-	Actions() []Action
-}
-
-type Action struct {
-	HttpMethod   string
-	RelativePath string
-	ActionExec   func(ctx *gin.Context)
-}
-
 type server struct {
 	srv    *http.Server
 	engine *gin.Engine
 }
 
 func NewServer(
-	controller Controller,
+	controller controllers.Controller,
 	config *ServerConf,
 ) *server {
 
@@ -49,7 +39,7 @@ func NewServer(
 	return s
 }
 
-func (s *server) setup(controller Controller, config *ServerConf) {
+func (s *server) setup(controller controllers.Controller, config *ServerConf) {
 
 	gin.SetMode(config.GinMode)
 
