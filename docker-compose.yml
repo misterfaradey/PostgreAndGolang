@@ -1,13 +1,15 @@
 version: '3'
 services:
   postgre:
-    image: postgres:12
+#    image: postgres:12
+    build:
+      context: ./build/db
     container_name: postgre
     restart: always
     ports:
       - "5432:5432"
-    volumes:
-      - ./build/db/migrations:/docker-entrypoint-initdb.d/
+#    volumes:
+#      - ./build/db/migrations:/docker-entrypoint-initdb.d/
 
 
 
@@ -17,7 +19,7 @@ services:
       - postgre
     volumes:
       - .:/go/src/github.com/misterfaradey/PostgreAndGolang/
-    working_dir: /go/src/github.com/misterfaradey/exmo/PostgreAndGolang/
+    working_dir: /go/src/github.com/misterfaradey/PostgreAndGolang/
     ports:
       - "8080:8080"
     entrypoint:

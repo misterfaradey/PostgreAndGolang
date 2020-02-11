@@ -22,7 +22,6 @@ type DB interface {
 	Connect(config *StorageConf) error
 	Close() error
 	HealthChecker(logger *log.Logger)
-	InitDB() error
 
 	Wallet
 }
@@ -78,18 +77,4 @@ func (c *db) HealthChecker(logger *log.Logger) {
 			logger.Println("db Ping", err)
 		}
 	}
-}
-
-//это временное решение
-func (c *db) InitDB() error {
-	ctx, _ := context.WithTimeout(context.Background(), time.Second*10)
-
-	rows, err := c.db.QueryContext(ctx, `SELECT 1 FROM "test".test LIMIT 1;`)
-	if err == nil {
-		rows.Close()
-		return nil
-	}
-
-	_, err = c.db.ExecContext(ctx, initDB)
-	return err
 }

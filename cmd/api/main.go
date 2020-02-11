@@ -42,13 +42,6 @@ func main() {
 		return
 	}
 
-	err = db.InitDB()
-	if err != nil {
-		logger.Println(err)
-		cancel()
-		return
-	}
-
 	go db.HealthChecker(logger)
 
 	srv := server.NewServer(
