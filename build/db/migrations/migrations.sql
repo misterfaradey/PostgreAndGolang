@@ -48,14 +48,15 @@ BEGIN
     WHERE id = 1
     LIMIT 1;
 
-    IF amount>0 THEN
+
+    IF _state=='win' THEN
         UPDATE "test".wallets
         SET balance=balance+amount
         WHERE id=1;
     ELSE
-        IF _balance>=amount THEN
+        IF _state=='lost' AND _balance>=amount THEN
             UPDATE "test".wallets
-            SET balance=balance-amount
+            SET balance=balance+amount
             WHERE id=1;
         ELSE
             ROLLBACK;

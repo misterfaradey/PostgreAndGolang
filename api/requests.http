@@ -24,9 +24,9 @@ Content-Type: application/json
 Source-Type:payment
 
 {
-  "transactionId": "8",
+  "transactionId": "1",
   "state": "lost",
-  "amount": 3600
+  "amount": 380
 }
 
 ###

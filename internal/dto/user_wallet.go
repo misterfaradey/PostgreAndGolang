@@ -32,10 +32,8 @@ func (t *Transaction) Validate() error {
 	}
 
 	switch t.State {
-	case "win":
+	case "win", "lost":
 		break
-	case "lost":
-		t.Amount *= -1
 	default:
 		return errors.New("state not valid")
 	}
